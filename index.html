@@ -98,9 +98,11 @@
   }
   .wordmark {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.85rem;
-    letter-spacing: -0.02em;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 1.3rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
     color: var(--ink);
     text-decoration: none;
   }
@@ -139,8 +141,9 @@
     letter-spacing: -0.01em;
     margin: 0 0 22px;
     text-wrap: balance;
-    max-width: 15ch;
+    max-width: 20ch;
   }
+  .headline-brand { color: var(--accent); }
   .subhead {
     font-size: 1.15rem;
     color: var(--ink-muted);
@@ -496,7 +499,7 @@
   <div class="wrap hero">
     <div>
       <p class="eyebrow">Spaced repetition, done right</p>
-      <h1 class="headline">Study like you mean it.</h1>
+      <h1 class="headline"><span class="headline-brand">Retrieve.</span> Study like you mean it.</h1>
       <p class="subhead">A native iOS flashcard app built on real FSRS scheduling. Made for people who already know what SRS means and are tired of clunky UI and subscriptions.</p>
       <div class="cta-row">
         <a class="btn-store" href="https://apps.apple.com/us/app/retrieve-flashcards/id6796848437">
