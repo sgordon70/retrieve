@@ -268,9 +268,6 @@
     font-size: 0.78rem;
     font-weight: 500;
   }
-  .flash-face svg { width: 100%; height: 100%; }
-  .occl-mask { fill: var(--ink); }
-  .occl-label { font-family: var(--font-body); font-weight: 700; }
   @keyframes cardflip {
     0%, 16%   { transform: rotateY(0deg); }
     22%, 42%  { transform: rotateY(180deg); }
@@ -523,9 +520,9 @@
         </div>
       </div>
       <div class="flash-flourish">
-        <div class="card-inner" id="flashCardInner">
-          <div class="flash-face front" id="flashFront">Mitochondria</div>
-          <div class="flash-face back" id="flashBack">The powerhouse of the cell.</div>
+        <div class="card-inner">
+          <div class="flash-face front">Mitochondria</div>
+          <div class="flash-face back">The powerhouse of the cell.</div>
         </div>
       </div>
     </div>
@@ -668,46 +665,6 @@
     </nav>
   </div>
 </footer>
-
-<script>
-(function () {
-  var frontEl = document.getElementById('flashFront');
-  var backEl = document.getElementById('flashBack');
-  var cardInner = document.getElementById('flashCardInner');
-  if (!frontEl || !backEl || !cardInner) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  var occlusionSvg = '<svg viewBox="0 0 160 92" fill="none" stroke="currentColor" stroke-width="1.6">' +
-    '<rect x="5" y="5" width="150" height="82" rx="8"/>' +
-    '<rect x="28" y="38" width="104" height="20" rx="4" class="occl-mask" stroke="none"/>' +
-    '</svg>';
-  var occlusionSvgRevealed = '<svg viewBox="0 0 160 92" fill="none" stroke="currentColor" stroke-width="1.6">' +
-    '<rect x="5" y="5" width="150" height="82" rx="8"/>' +
-    '<text x="80" y="53" text-anchor="middle" fill="currentColor" class="occl-label" font-size="15">Femur</text>' +
-    '</svg>';
-
-  var examples = [
-    { front: 'Mitochondria', frontSerif: true, back: 'The powerhouse of the cell.' },
-    { front: occlusionSvg, frontSerif: false, back: occlusionSvgRevealed }
-  ];
-  var i = 0;
-  var iterations = 0;
-
-  // Swap content only when the flip animation completes a full loop (back
-  // at rest, front facing), never mid rotation. Swapping on an
-  // independent timer instead of syncing to the animation caused content
-  // to pop in sideways or mirrored mid flip, which read as broken.
-  cardInner.addEventListener('animationiteration', function () {
-    iterations++;
-    if (iterations % 2 !== 0) return; // hold each example for 2 full flips
-    i = (i + 1) % examples.length;
-    var ex = examples[i];
-    frontEl.innerHTML = ex.front;
-    backEl.innerHTML = ex.back;
-    frontEl.style.fontStyle = ex.frontSerif ? 'italic' : 'normal';
-  });
-})();
-</script>
 
 </body>
 </html>
