@@ -230,15 +230,16 @@
     filter: drop-shadow(0 14px 24px var(--shadow));
   }
   .flash-flourish .card-inner {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
     transform-style: preserve-3d;
-    animation: cardcycle 10s ease-in-out infinite;
+    animation: cardflip 4.5s ease-in-out infinite;
   }
-  .flash-flourish .card-inner.card2 { animation-delay: -5s; }
   .flash-face {
     position: absolute;
     inset: 0;
+    overflow: hidden;
     backface-visibility: hidden;
     border-radius: 14px;
     background: var(--surface);
@@ -258,23 +259,16 @@
     font-size: 0.78rem;
     font-weight: 500;
   }
-  .card2 .flash-face { padding: 7px; font-style: normal; }
-  .card2 .flash-face svg { width: 100%; height: 100%; }
-  .occl-mask { fill: var(--ink); opacity: 0.85; }
-  .occl-label { font-size: 7.5px; font-family: var(--font-body); font-weight: 700; }
-  @keyframes cardcycle {
-    0%    { opacity: 0; transform: rotateY(0deg); }
-    2%    { opacity: 1; transform: rotateY(0deg); }
-    18%   { opacity: 1; transform: rotateY(0deg); }
-    28%   { opacity: 1; transform: rotateY(180deg); }
-    44%   { opacity: 1; transform: rotateY(180deg); }
-    48%   { opacity: 0; transform: rotateY(180deg); }
-    50%   { opacity: 0; transform: rotateY(0deg); }
-    100%  { opacity: 0; transform: rotateY(0deg); }
+  .flash-face svg { width: 100%; height: 100%; }
+  .occl-mask { fill: var(--ink); }
+  .occl-label { font-family: var(--font-body); font-weight: 700; }
+  @keyframes cardflip {
+    0%, 16%   { transform: rotateY(0deg); }
+    22%, 42%  { transform: rotateY(180deg); }
+    48%, 100% { transform: rotateY(360deg); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .flash-flourish .card-inner { animation: none; opacity: 1 !important; }
-    .flash-flourish .card-inner.card2 { display: none; }
+    .flash-flourish .card-inner { animation: none; }
   }
 
   /* ---------- Section shell ---------- */
@@ -508,34 +502,14 @@
     <div class="hero-visual">
       <div class="phone">
         <div class="phone-screen">
-          <img src="screenshot-01.png" alt="Retrieve app screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="screenshot_01.png" alt="Retrieve app screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="shot-fallback" style="display:none;">screenshot&#8209;01.png</div>
         </div>
       </div>
       <div class="flash-flourish">
-        <div class="card-inner card1">
-          <div class="flash-face front">Mitochondria</div>
-          <div class="flash-face back">The powerhouse of the cell.</div>
-        </div>
-        <div class="card-inner card2">
-          <div class="flash-face front">
-            <svg viewBox="0 0 160 92" fill="none" stroke="currentColor" stroke-width="2">
-              <ellipse cx="30" cy="50" rx="13" ry="17"/>
-              <rect x="30" y="42" width="100" height="16" rx="8"/>
-              <ellipse cx="130" cy="50" rx="13" ry="17"/>
-              <line x1="80" y1="42" x2="80" y2="22"/>
-              <rect x="53" y="8" width="54" height="14" rx="3" class="occl-mask" stroke="none"/>
-            </svg>
-          </div>
-          <div class="flash-face back">
-            <svg viewBox="0 0 160 92" fill="none" stroke="currentColor" stroke-width="2">
-              <ellipse cx="30" cy="50" rx="13" ry="17"/>
-              <rect x="30" y="42" width="100" height="16" rx="8"/>
-              <ellipse cx="130" cy="50" rx="13" ry="17"/>
-              <line x1="80" y1="42" x2="80" y2="22"/>
-              <text x="80" y="17" text-anchor="middle" fill="currentColor" stroke="none" class="occl-label">Femur</text>
-            </svg>
-          </div>
+        <div class="card-inner">
+          <div class="flash-face front" id="flashFront">Mitochondria</div>
+          <div class="flash-face back" id="flashBack">The powerhouse of the cell.</div>
         </div>
       </div>
     </div>
@@ -620,27 +594,27 @@
       </div>
       <div class="shots-strip">
         <div class="shot-slot"><div class="shot-slot-inner">
-          <img src="screenshot-01.png" alt="Retrieve screenshot 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="screenshot_01.png" alt="Retrieve screenshot 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="shot-fallback" style="display:none;">screenshot&#8209;01.png</div>
         </div></div>
         <div class="shot-slot"><div class="shot-slot-inner">
-          <img src="screenshot-02.png" alt="Retrieve screenshot 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="screenshot_02.png" alt="Retrieve screenshot 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="shot-fallback" style="display:none;">screenshot&#8209;02.png</div>
         </div></div>
         <div class="shot-slot"><div class="shot-slot-inner">
-          <img src="screenshot-03.png" alt="Retrieve screenshot 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="screenshot_03.png" alt="Retrieve screenshot 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="shot-fallback" style="display:none;">screenshot&#8209;03.png</div>
         </div></div>
         <div class="shot-slot"><div class="shot-slot-inner">
-          <img src="screenshot-04.png" alt="Retrieve screenshot 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="screenshot_04.png" alt="Retrieve screenshot 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="shot-fallback" style="display:none;">screenshot&#8209;04.png</div>
         </div></div>
         <div class="shot-slot"><div class="shot-slot-inner">
-          <img src="screenshot-05.png" alt="Retrieve screenshot 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="screenshot_05.png" alt="Retrieve screenshot 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="shot-fallback" style="display:none;">screenshot&#8209;05.png</div>
         </div></div>
         <div class="shot-slot"><div class="shot-slot-inner">
-          <img src="screenshot-06.png" alt="Retrieve screenshot 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="screenshot_06.png" alt="Retrieve screenshot 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="shot-fallback" style="display:none;">screenshot&#8209;06.png</div>
         </div></div>
       </div>
@@ -671,6 +645,42 @@
     </nav>
   </div>
 </footer>
+
+<script>
+(function () {
+  var frontEl = document.getElementById('flashFront');
+  var backEl = document.getElementById('flashBack');
+  if (!frontEl || !backEl) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var occlusionSvg = '<svg viewBox="0 0 160 92" fill="none" stroke="currentColor" stroke-width="1.6">' +
+    '<rect x="5" y="5" width="150" height="82" rx="8"/>' +
+    '<circle cx="52" cy="38" r="17" opacity="0.45"/>' +
+    '<path d="M84 52 Q108 22 140 46" opacity="0.45"/>' +
+    '<rect x="24" y="60" width="112" height="18" rx="4" class="occl-mask" stroke="none"/>' +
+    '</svg>';
+  var occlusionSvgRevealed = '<svg viewBox="0 0 160 92" fill="none" stroke="currentColor" stroke-width="1.6">' +
+    '<rect x="5" y="5" width="150" height="82" rx="8"/>' +
+    '<circle cx="52" cy="38" r="17" opacity="0.45"/>' +
+    '<path d="M84 52 Q108 22 140 46" opacity="0.45"/>' +
+    '<text x="80" y="73" text-anchor="middle" fill="currentColor" class="occl-label" font-size="13">Femur</text>' +
+    '</svg>';
+
+  var examples = [
+    { front: 'Mitochondria', frontSerif: true, back: 'The powerhouse of the cell.' },
+    { front: occlusionSvg, frontSerif: false, back: occlusionSvgRevealed }
+  ];
+  var i = 0;
+
+  setInterval(function () {
+    i = (i + 1) % examples.length;
+    var ex = examples[i];
+    frontEl.innerHTML = ex.front;
+    backEl.innerHTML = ex.back;
+    frontEl.style.fontStyle = ex.frontSerif ? 'italic' : 'normal';
+  }, 9000);
+})();
+</script>
 
 </body>
 </html>
