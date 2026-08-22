@@ -171,11 +171,20 @@
   .btn-store:hover { transform: translateY(-1px); }
   .btn-store svg { width: 18px; height: 18px; flex-shrink: 0; }
   .ph-badge img { height: 54px; width: auto; border-radius: 10px; }
-  .microline {
-    font-size: 0.88rem;
-    color: var(--ink-muted);
+  .promise-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    padding: 10px 18px;
+    border-radius: 100px;
   }
-  .microline strong { color: var(--ink); font-weight: 600; }
+  .promise-badge svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .promise-badge .promise-tail { font-weight: 500; opacity: 0.75; }
 
   /* ---------- Hero visual: phone + flashcard flourish ---------- */
   .hero-visual {
@@ -373,7 +382,12 @@
     background: var(--surface);
     border: 1px solid var(--border);
     box-shadow: 0 6px 14px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
   }
+  .deck-icon svg { width: 60%; height: 60%; }
   .deck-icon.stack { position: relative; }
   .deck-icon.stack::before, .deck-icon.stack::after {
     content: '';
@@ -387,7 +401,7 @@
   .deck-icon.stack::after { transform: translate(-12px, 12px); z-index: -2; }
   .transition-arrow { color: var(--amber); flex-shrink: 0; }
   .transition-arrow svg { width: 30px; height: 30px; }
-  .deck-icon.new { border: 1.5px solid var(--accent); }
+  .deck-icon.new { border: 1.5px solid var(--accent); color: var(--accent); }
 
   /* ---------- Screenshots strip ---------- */
   .shots-strip {
@@ -496,7 +510,10 @@
           <img alt="Retrieve - A native flashcard app for serious studiers | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1226131&amp;theme=light&amp;t=1787410397975">
         </a>
       </div>
-      <p class="microline"><strong>One payment. No subscription.</strong> Ever.</p>
+      <p class="promise-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        One payment. No subscription. <span class="promise-tail">Ever.</span>
+      </p>
     </div>
 
     <div class="hero-visual">
@@ -507,7 +524,7 @@
         </div>
       </div>
       <div class="flash-flourish">
-        <div class="card-inner">
+        <div class="card-inner" id="flashCardInner">
           <div class="flash-face front" id="flashFront">Mitochondria</div>
           <div class="flash-face back" id="flashBack">The powerhouse of the cell.</div>
         </div>
@@ -578,9 +595,17 @@
           </ul>
         </div>
         <div class="transition-visual">
-          <div class="deck-icon stack"></div>
+          <div class="deck-icon stack">
+            <svg viewBox="0 0 40 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M9 18h22M9 26h16M9 34h19"/>
+            </svg>
+          </div>
           <div class="transition-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg></div>
-          <div class="deck-icon new"></div>
+          <div class="deck-icon new">
+            <svg viewBox="0 0 40 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M9 18h22M9 26h16M9 34h19"/>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
@@ -650,7 +675,8 @@
 (function () {
   var frontEl = document.getElementById('flashFront');
   var backEl = document.getElementById('flashBack');
-  if (!frontEl || !backEl) return;
+  var cardInner = document.getElementById('flashCardInner');
+  if (!frontEl || !backEl || !cardInner) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   var occlusionSvg = '<svg viewBox="0 0 160 92" fill="none" stroke="currentColor" stroke-width="1.6">' +
@@ -671,14 +697,21 @@
     { front: occlusionSvg, frontSerif: false, back: occlusionSvgRevealed }
   ];
   var i = 0;
+  var iterations = 0;
 
-  setInterval(function () {
+  // Swap content only when the flip animation completes a full loop (back
+  // at rest, front-facing) — never mid-rotation. Swapping on an
+  // independent timer instead of syncing to the animation caused content
+  // to pop in sideways/mirrored mid-flip, which read as broken.
+  cardInner.addEventListener('animationiteration', function () {
+    iterations++;
+    if (iterations % 2 !== 0) return; // hold each example for 2 full flips
     i = (i + 1) % examples.length;
     var ex = examples[i];
     frontEl.innerHTML = ex.front;
     backEl.innerHTML = ex.back;
     frontEl.style.fontStyle = ex.frontSerif ? 'italic' : 'normal';
-  }, 9000);
+  });
 })();
 </script>
 
