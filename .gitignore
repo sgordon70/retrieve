@@ -1,0 +1,16 @@
+
+# Secrets and signing keys (never commit)
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.jks
+*.keystore
+*.p8
+*.p12
+*.pem
+*.mobileprovision
+key.properties
+keystore.properties
+local.properties
+*service-account*.json
